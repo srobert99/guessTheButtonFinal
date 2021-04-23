@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">proba</string>
+    <string name="scoreTV">score:</string>
+    <string name="score_0">Score: 0</string>
+</resources>
