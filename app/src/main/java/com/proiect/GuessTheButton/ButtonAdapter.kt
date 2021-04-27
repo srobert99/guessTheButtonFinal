@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class ButtonAdapter(
-        private val buttons:MutableList<ButtonItem>
+        val answer: Int,private val buttons:MutableList<ButtonItem>
 ):RecyclerView.Adapter<ButtonAdapter.ButtonViewHolder>(){
 
     class ButtonViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView)
@@ -24,21 +24,18 @@ class ButtonAdapter(
         )
     }
 
+
     override fun onBindViewHolder(holder: ButtonViewHolder, position: Int) {
         val curButton=buttons[position]
         holder.itemView.apply{
             findViewById<Button>(R.id.button_view_item).text=(curButton.returnvalue+1).toString()
             findViewById<Button>(R.id.button_view_item).setOnClickListener{
-                if(curButton.returnvalue==curButton.rightAnswer){
-                    buttons.clear()
-                    notifyDataSetChanged()
-
-                    Toast.makeText(holder.itemView.context,"Right Button",Toast.LENGTH_SHORT).show()
+                if(curButton.returnvalue==answer){
+                    Toast.makeText(context,"You guessed",Toast.LENGTH_SHORT).show()
+                    reset()
                 }else{
-                    buttons.removeAt(position)
-                    notifyItemRemoved(position)
-                    notifyItemRangeChanged(position,buttons.size)
-
+                    Toast.makeText(context,"Try again",Toast.LENGTH_SHORT).show()
+                    delButton(position)
                 }
             }
         }
@@ -53,6 +50,19 @@ class ButtonAdapter(
         buttons.add(button)
         notifyItemInserted(buttons.size-1)
     }
+
+    fun reset(){
+        buttons.clear()
+        notifyDataSetChanged()
+    }
+
+    fun delButton(position: Int){
+        buttons.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position,buttons.size)
+
+    }
+
 
 
 
